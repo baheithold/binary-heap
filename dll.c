@@ -23,11 +23,11 @@ typedef struct node {
 } NODE;
 
 /*
- *  Constructor: newNODE
- *  Usage:  NODE *n = newNODE(value, n, p);
+ *  Constructor: newNodeDLL
+ *  Usage:  NODE *n = newNodeDLL(value, n, p);
  *  Description: This constructor instantiates a new NODE object.
  */
-NODE *newNODE(void *value, NODE *next, NODE *prev) {
+NODE *newNodeDLL(void *value, NODE *next, NODE *prev) {
     NODE *n = malloc(sizeof(NODE));
     assert(n != 0);
     n->value = value;
@@ -384,7 +384,7 @@ void freeDLL(DLL *items) {
  */
 void addToFront(DLL *items, void *value) {
     assert(items != 0);
-    NODE *n = newNODE(value, items->head, NULL);
+    NODE *n = newNodeDLL(value, items->head, NULL);
     if (items->size == 0) {
         // List is empty, set head and tail to same node
         items->head = n;
@@ -410,7 +410,7 @@ void addToBack(DLL *items, void *value) {
         items->addToFront(items, value);
     }
     else {
-        NODE *n = newNODE(value, NULL, items->tail);
+        NODE *n = newNodeDLL(value, NULL, items->tail);
         setNODEnext(items->tail, n);
         items->tail = n;
     }
@@ -434,7 +434,7 @@ void insertAtIndex(DLL *items, int index, void *value) {
     else {
         // get node prev to node at index
         NODE *curr = items->getNodeAtIndex(items, index - 1);
-        NODE *n = newNODE(value, curr->next, curr);
+        NODE *n = newNodeDLL(value, curr->next, curr);
         setNODEprev(curr->next, n);
         setNODEnext(curr, n);
         items->size++;

@@ -23,12 +23,12 @@ typedef struct node {
 
 
 /*
- *  Constructor: newNODE
- *  Usage: NODE *n = newNODE(value, next);
+ *  Constructor: newNodeSLL
+ *  Usage: NODE *n = newNodeSLL(value, next);
  *  Description: This constructor creates a new NODE object with a value
  *  and initializes the node's next pointer.
  */
-NODE *newNODE(void *value, NODE *next) {
+NODE *newNodeSLL(void *value, NODE *next) {
     NODE *n = malloc(sizeof(NODE));
     assert(n != 0);
     n->value = value;
@@ -336,7 +336,7 @@ void freeSLL(SLL *items) {
 
 void addToFront(SLL *items, void *value) {
     assert(items != 0);
-    items->head = newNODE(value, items->head);
+    items->head = newNodeSLL(value, items->head);
     if (items->size == 0) {
         // List was empty before insertion
         items->tail = items->head;
@@ -352,7 +352,7 @@ void addToBack(SLL *items, void *value) {
         items->addToFront(items, value);
     }
     else {
-        items->tail->next = newNODE(value, NULL);
+        items->tail->next = newNodeSLL(value, NULL);
         items->tail = items->tail->next;
         items->size++;
     }
@@ -373,7 +373,7 @@ void insertAtIndex(SLL *items, int index, void *value) {
             curr = curr->next;
             index--;
         }
-        NODE *n = newNODE(value, curr->next);
+        NODE *n = newNodeSLL(value, curr->next);
         curr->next = n;
         items->size++;
     }
