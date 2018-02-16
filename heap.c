@@ -46,6 +46,7 @@ HEAP *newHEAP(
  */
 void *peekHEAP(HEAP *h) {
     // TODO: Am I correct?
+    assert(h != 0);
     return getBSTroot(h->store);
 }
 
@@ -56,5 +57,18 @@ void *peekHEAP(HEAP *h) {
  *  Description:
  */
 int sizeHEAP(HEAP *h) {
+    assert(h != 0);
     return h->size;
+}
+
+
+/*
+ *  Method: displayHEAP
+ *  Usage:  displayHEAP(h, stdout);
+ *  Description:
+ *  Example Output:
+ */
+void displayHEAP(HEAP *h, FILE *fp) {
+    assert(h != 0);
+    displayBST(h->store, fp);
 }
