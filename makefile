@@ -1,11 +1,11 @@
-OBJS = integer.o bst.o queue.o sll.o test-bst.o
+OBJS = integer.o bst.o queue.o stack.o dll.o sll.o test-heap.o
 OOPTS = -Wall -Wextra -std=c99 -g -c
 LOPTS = -Wall -Wextra -std=c99 -g
 
-all: test-bst
+all: test-heap
 
-test-bst:	$(OBJS)
-		gcc $(LOPTS) $(OBJS) -o test-bst
+test-heap:	$(OBJS)
+		gcc $(LOPTS) $(OBJS) -o test-heap
 
 integer.o:	integer.c integer.h
 		gcc $(OOPTS) integer.c
@@ -13,20 +13,26 @@ integer.o:	integer.c integer.h
 queue.o:	queue.c queue.h sll.h
 		gcc $(OOPTS) queue.c
 
+stack.o:	stack.c stack.h dll.h
+		gcc $(OOPTS) stack.c
+
+dll.o:	dll.c dll.h
+		gcc $(OOPTS) dll.c
+
 sll.o:	sll.c sll.h
 		gcc $(OOPTS) sll.c
 
 bst.o:	bst.c bst.h queue.h
 		gcc $(OOPTS) bst.c
 
-test-bst.o:	test-bst.c bst.h queue.h
-		gcc $(OOPTS) test-bst.c
+test-heap.o:	test-heap.c bst.h queue.h
+		gcc $(OOPTS) test-heap.c
 
-test:	test-bst
-		@./test-bst
+test:	test-heap
+		@./test-heap
 
-valgrind: test-bst
-		valgrind test-bst
+valgrind: test-heap
+		valgrind ./test-heap
 
 clean:
-		rm -f vgcore.* $(OBJS) test-bst
+		rm -f vgcore.* $(OBJS) test-heap
