@@ -14,7 +14,7 @@
 
 
 struct HEAP {
-    BST *store;
+    BST *tree;
     int size;
     
     // Public Methods
@@ -30,7 +30,7 @@ HEAP *newHEAP(
     void (*f)(void *)) {
     HEAP *h = malloc(sizeof(HEAP));
     assert(h != 0);
-    h->store = newBST(d, c, NULL, f);
+    h->tree = newBST(d, c, NULL, f);
     h->size = 0;
     h->display = d;
     h->compare = c;
@@ -47,7 +47,7 @@ HEAP *newHEAP(
 void *peekHEAP(HEAP *h) {
     // TODO: Am I correct?
     assert(h != 0);
-    return getBSTroot(h->store);
+    return getBSTroot(h->tree);
 }
 
 
@@ -70,5 +70,19 @@ int sizeHEAP(HEAP *h) {
  */
 void displayHEAP(HEAP *h, FILE *fp) {
     assert(h != 0);
-    displayBST(h->store, fp);
+    displayBST(h->tree, fp);
+}
+
+
+/*
+ *  Method: displayHEAPdebug
+ *  Usage:  displayHEAPdebug(h, stdout);
+ *  Description:
+ *  Example Output:
+ */
+void displayHEAPdebug(HEAP *h, FILE *fp) {
+    assert(h != 0);
+    fprintf(fp, "heap size: %d\n", h->size);
+    fprintf(fp, "bst size: %d\n", sizeBST(h->tree));
+    displayBSTdebug(h->tree, fp);
 }

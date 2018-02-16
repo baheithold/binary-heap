@@ -12,6 +12,7 @@
 int main(void) {
 
     HEAP *h = newHEAP(displayINTEGER, compareINTEGER, freeINTEGER);
+    displayHEAPdebug(h, stdout);
 
     return 0;
 }
