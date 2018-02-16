@@ -37,3 +37,13 @@ HEAP *newHEAP(
     h->free = f;
     return h;
 }
+
+
+/*
+ *  Method: sizeHEAP
+ *  Usage:  int size = sizeHEAP(h);
+ *  Description:
+ */
+int sizeHEAP(HEAP *h) {
+    return h->size;
+}
