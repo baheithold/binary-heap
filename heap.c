@@ -40,6 +40,17 @@ HEAP *newHEAP(
 
 
 /*
+ *  Method: peekHEAP
+ *  Usage:  void *val = peekHEAP(h);
+ *  Description:
+ */
+void *peekHEAP(HEAP *h) {
+    // TODO: Am I correct?
+    return getBSTroot(h->store);
+}
+
+
+/*
  *  Method: sizeHEAP
  *  Usage:  int size = sizeHEAP(h);
  *  Description:

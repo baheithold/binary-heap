@@ -10,5 +10,8 @@
 
 
 int main(void) {
+
+    HEAP *h = newHEAP(displayINTEGER, compareINTEGER, freeINTEGER);
+
     return 0;
 }
