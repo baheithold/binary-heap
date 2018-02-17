@@ -20,6 +20,10 @@ int main(void) {
     insertHEAP(h, newINTEGER(17));
     insertHEAP(h, newINTEGER(11));
     displayHEAPdebug(h, stdout);
+    buildHEAP(h);
+    printf("After buildHEAP: \n");
+    displayHEAP(h, stdout);
+    printf("\n");
 
     freeHEAP(h);
     return 0;

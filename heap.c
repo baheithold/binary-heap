@@ -13,6 +13,12 @@
 #include <assert.h>
 
 
+// Private HEAP method prototypes
+static void swapNodeValues(BSTNODE *x, BSTNODE *y);
+static void heapify(HEAP *h, BSTNODE *root);
+static void bubbleDown(HEAP *h, BSTNODE *n);
+
+
 struct HEAP {
     BST *tree;
     int size;
@@ -23,6 +29,10 @@ struct HEAP {
     void (*display)(void *, FILE *);
     int (*compare)(void *, void *);
     void (*free)(void *);
+    // Private Methods
+    void (*swapNodeValues)(BSTNODE *, BSTNODE *);
+    void (*heapify)(HEAP *, BSTNODE *);
+    void (*bubbleDown)(HEAP *, BSTNODE *);
 };
 
 
@@ -43,6 +53,9 @@ HEAP *newHEAP(
     h->display = d;
     h->compare = c;
     h->free = f;
+    h->swapNodeValues = swapNodeValues;
+    h->heapify = heapify;
+    h->bubbleDown = bubbleDown;
     return h;
 }
 
@@ -50,7 +63,8 @@ HEAP *newHEAP(
 /*
  *  Method: insertHEAP
  *  Usage:  insertHEAP(h, newINTEGER(7));
- *  Description:
+ *  Description: This method inserts a generic value into an un-heapified heap.
+ *  No fixing up of the heap should occur. This method runs in constant time. 
  */
 void insertHEAP(HEAP *h, void *value) {
     // TODO: Am I setting bst-size correctly?
@@ -88,12 +102,25 @@ void insertHEAP(HEAP *h, void *value) {
 
 
 /*
+ *  Method: buildHEAP
+ *  Usage:  buildHEAP(h);
+ *  Description:This method imparts heap ordering on the current heap.
+ *  Once buildHEAP has been called, no insertions to the heap should be made.
+ *  This method runs in linear time.
+ */
+void buildHEAP(HEAP *h) {
+    assert(h != 0);
+    h->heapify(h, getBSTroot(h->tree));
+}
+
+
+/*
  *  Method: peekHEAP
  *  Usage:  void *val = peekHEAP(h);
- *  Description:
+ *  Description:This method returns the value at the “root” of the heap;
+ *  the heap is unmodified. This method runs in constant time. 
  */
 void *peekHEAP(HEAP *h) {
-    // TODO: Am I correct?
     assert(h != 0);
     return getBSTNODEvalue(getBSTroot(h->tree));
 }
@@ -102,7 +129,8 @@ void *peekHEAP(HEAP *h) {
 /*
  *  Method: sizeHEAP
  *  Usage:  int size = sizeHEAP(h);
- *  Description:
+ *  Description: This method returns the number of values currently in the tree.
+ *  It runs in constant time. 
  */
 int sizeHEAP(HEAP *h) {
     assert(h != 0);
@@ -113,8 +141,9 @@ int sizeHEAP(HEAP *h) {
 /*
  *  Method: displayHEAP
  *  Usage:  displayHEAP(h, stdout);
- *  Description:
- *  Example Output:
+ *  Description: This method calls the display method of the underlying
+ *  data structure (BST).
+ *  Example Output: [7 [9] [10]]
  */
 void displayHEAP(HEAP *h, FILE *fp) {
     assert(h != 0);
@@ -125,7 +154,9 @@ void displayHEAP(HEAP *h, FILE *fp) {
 /*
  *  Method: displayHEAPdebug
  *  Usage:  displayHEAPdebug(h, stdout);
- *  Description:
+ *  Description: This method should print the size of the heap, the size of the
+ *  underlying data structure, and call the debug display method of the
+ *  underlying data structure. 
  *  Example Output:
  */
 void displayHEAPdebug(HEAP *h, FILE *fp) {
@@ -139,10 +170,53 @@ void displayHEAPdebug(HEAP *h, FILE *fp) {
 /*
  *  Method: freeHEAP
  *  Usage:  freeHEAP(h);
- *  Description:
+ *  Description: This method frees the heap, in part by freeing the underlying
+ *  data structure.
  */
 void freeHEAP(HEAP *h) {
     freeBST(h->tree);
     freeQUEUE(h->insertionQueue);
     free(h);
+}
+
+
+/****************************** Private Methods ******************************/
+
+
+void swapNodeValues(BSTNODE *x, BSTNODE *y) {
+    // TODO: Am I correct?
+    assert(x != 0 && y != 0);
+    void *tmp = getBSTNODEvalue(x);
+    setBSTNODEvalue(x, getBSTNODEvalue(y));
+    setBSTNODEvalue(y, tmp);
+}
+
+
+void heapify(HEAP *h, BSTNODE *root) {
+    if (root == NULL) return;
+    h->heapify(h, getBSTNODEleft(root));    // heapify left subtree of root
+    h->heapify(h, getBSTNODEright(root));   // heapify right subtree of root
+    h->bubbleDown(h, root);
+}
+
+
+void bubbleDown(HEAP *h, BSTNODE *n) {
+    assert(n != 0);
+    BSTNODE *smallest = n;
+    BSTNODE *lChild = getBSTNODEleft(n);
+    BSTNODE *rChild = getBSTNODEright(n);
+    if (lChild != NULL) {
+        if (h->compare(getBSTNODEvalue(lChild), getBSTNODEvalue(n)) < 0) {
+            smallest = lChild;
+        }
+    }
+    if (rChild != NULL) {
+        if (h->compare(getBSTNODEvalue(rChild), getBSTNODEvalue(smallest)) < 0) {
+            smallest = rChild;
+        }
+    }
+    if (h->compare(getBSTNODEvalue(n), getBSTNODEvalue(smallest)) != 0) {
+        h->swapNodeValues(n, smallest);
+        h->bubbleDown(h, smallest);
+    }
 }
