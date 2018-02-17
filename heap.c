@@ -54,6 +54,7 @@ HEAP *newHEAP(
  */
 void insertHEAP(HEAP *h, void *value) {
     // TODO: Am I setting bst-size correctly?
+    assert(h != 0);
     BSTNODE *temp = newBSTNODE(value);
     if (sizeBST(h->tree) == 0) {
         // If tree is empty, add new node to root
