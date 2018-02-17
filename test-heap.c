@@ -24,6 +24,13 @@ int main(void) {
     printf("After buildHEAP: \n");
     displayHEAP(h, stdout);
     printf("\n");
+    void *extracted = extractHEAP(h);
+    printf("Extracted from heap: ");
+    displayINTEGER(extracted, stdout);
+    printf("\n");
+    printf("After extractHEAP: \n");
+    displayHEAP(h, stdout);
+    printf("\n");
 
     freeHEAP(h);
     return 0;

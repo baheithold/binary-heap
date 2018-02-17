@@ -24,6 +24,7 @@ struct HEAP {
     int size;
 
     QUEUE *insertionQueue;
+    STACK *extractionStack;
     
     // Public Methods
     void (*display)(void *, FILE *);
@@ -50,6 +51,7 @@ HEAP *newHEAP(
     h->tree = newBST(d, c, NULL, f);
     h->size = 0;
     h->insertionQueue = newQUEUE(h->display, h->free);
+    h->extractionStack = newSTACK(h->display, h->free);
     h->display = d;
     h->compare = c;
     h->free = f;
@@ -92,7 +94,7 @@ void insertHEAP(HEAP *h, void *value) {
         }
         if (getBSTNODEleft(front) != NULL && getBSTNODEright(front) != NULL) {
             // The front node already has two children, dequeue the front node
-            front = dequeue(h->insertionQueue); // trash
+            push(h->extractionStack, dequeue(h->insertionQueue));
         }
     }
     enqueue(h->insertionQueue, temp);
@@ -111,6 +113,10 @@ void insertHEAP(HEAP *h, void *value) {
 void buildHEAP(HEAP *h) {
     assert(h != 0);
     h->heapify(h, getBSTroot(h->tree));
+    // Move remaining nodes on insertionQueue to extractionStack
+    while (sizeQUEUE(h->insertionQueue) > 0) {
+        push(h->extractionStack, dequeue(h->insertionQueue));
+    }
 }
 
 
@@ -123,6 +129,22 @@ void buildHEAP(HEAP *h) {
 void *peekHEAP(HEAP *h) {
     assert(h != 0);
     return getBSTNODEvalue(getBSTroot(h->tree));
+}
+
+
+/*
+ *  Method: extractHEAP
+ *  Usage:  void *val = extractHEAP(h);
+ *  Description: This method returns the value at the “root” of the heap,
+ *  rebuilding the heap. This method runs in logarithmic time. 
+ */
+void *extractHEAP(HEAP *h) {
+    assert(h != 0);
+    BSTNODE *popped = pop(h->extractionStack);
+    h->swapNodeValues(getBSTroot(h->tree), popped);
+    pruneLeafBST(h->tree, popped);
+    h->heapify(h, getBSTroot(h->tree));
+    return getBSTNODEvalue(popped);
 }
 
 
@@ -176,6 +198,7 @@ void displayHEAPdebug(HEAP *h, FILE *fp) {
 void freeHEAP(HEAP *h) {
     freeBST(h->tree);
     freeQUEUE(h->insertionQueue);
+    freeSTACK(h->extractionStack);
     free(h);
 }
 
