@@ -19,8 +19,6 @@ int main(void) {
     insertHEAP(h, newINTEGER(12));
     insertHEAP(h, newINTEGER(17));
     insertHEAP(h, newINTEGER(11));
-    displayHEAP(h, stdout);
-    printf("\n");
     displayHEAPdebug(h, stdout);
 
     freeHEAP(h);
