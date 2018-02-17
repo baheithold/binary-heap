@@ -1,2 +1,2 @@
-# binary-heap
-This is a binary heap module
+# heap
+This is a heap module
