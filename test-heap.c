@@ -25,12 +25,21 @@ int main(void) {
     displayHEAP(h, stdout);
     printf("\n");
     void *extracted = extractHEAP(h);
-    printf("Extracted from heap: ");
+    extracted = extractHEAP(h);
+    extracted = extractHEAP(h);
+    extracted = extractHEAP(h);
+    extracted = extractHEAP(h);
+    extracted = extractHEAP(h);
+    printf("Last extracted from heap: ");
     displayINTEGER(extracted, stdout);
     printf("\n");
     printf("After extractHEAP: \n");
-    displayHEAP(h, stdout);
+    displayHEAPdebug(h, stdout);
+    printf("Extracting last node: ");
+    extracted = extractHEAP(h);
+    displayINTEGER(extracted, stdout);
     printf("\n");
+    displayHEAPdebug(h, stdout);
 
     freeHEAP(h);
     return 0;

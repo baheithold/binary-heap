@@ -140,10 +140,17 @@ void *peekHEAP(HEAP *h) {
  */
 void *extractHEAP(HEAP *h) {
     assert(h != 0);
+    if (h->size == 1) {
+        h->size--;
+        void *rv = getBSTNODEvalue(getBSTroot(h->tree));
+        pruneLeafBST(h->tree, getBSTroot(h->tree));
+        return rv;
+    }
     BSTNODE *popped = pop(h->extractionStack);
     h->swapNodeValues(getBSTroot(h->tree), popped);
     pruneLeafBST(h->tree, popped);
     h->heapify(h, getBSTroot(h->tree));
+    h->size--;
     return getBSTNODEvalue(popped);
 }
 
