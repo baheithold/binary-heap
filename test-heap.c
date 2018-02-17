@@ -12,6 +12,15 @@
 int main(void) {
 
     HEAP *h = newHEAP(displayINTEGER, compareINTEGER, freeINTEGER);
+    insertHEAP(h, newINTEGER(10));
+    insertHEAP(h, newINTEGER(7));
+    insertHEAP(h, newINTEGER(9));
+    insertHEAP(h, newINTEGER(15));
+    insertHEAP(h, newINTEGER(12));
+    insertHEAP(h, newINTEGER(17));
+    insertHEAP(h, newINTEGER(11));
+    displayHEAP(h, stdout);
+    printf("\n");
     displayHEAPdebug(h, stdout);
 
     freeHEAP(h);

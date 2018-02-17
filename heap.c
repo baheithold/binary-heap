@@ -48,6 +48,44 @@ HEAP *newHEAP(
 
 
 /*
+ *  Method: insertHEAP
+ *  Usage:  insertHEAP(h, newINTEGER(7));
+ *  Description:
+ */
+void insertHEAP(HEAP *h, void *value) {
+    BSTNODE *temp = newBSTNODE(value);
+    if (sizeBST(h->tree) == 0) {
+        // If tree is empty, add new node to root
+        setBSTroot(h->tree, temp);
+    }
+    else {
+        BSTNODE *front = peekQUEUE(h->insertionQueue);
+        if (getBSTNODEleft(front) == NULL) {
+            // If node at front of queue does not have left child
+            // set the left child to be the new node and set the parent
+            // of the new node
+            setBSTNODEleft(front, temp);
+            setBSTNODEparent(temp, front);
+        }
+        else if (getBSTNODEright(front) == NULL) {
+            // If node at front of queue does not have right child
+            // set the right child to be the new node and set the parent
+            // of the new node
+            setBSTNODEright(front, temp);
+            setBSTNODEparent(temp, front);
+        }
+        if (getBSTNODEleft(front) != NULL && getBSTNODEright(front) != NULL) {
+            // The front node already has two children, dequeue the front node
+            front = dequeue(h->insertionQueue); // trash
+        }
+    }
+    enqueue(h->insertionQueue, temp);
+    h->size++;
+    setBSTsize(h->tree, h->size);
+}
+
+
+/*
  *  Method: peekHEAP
  *  Usage:  void *val = peekHEAP(h);
  *  Description:

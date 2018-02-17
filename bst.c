@@ -711,7 +711,6 @@ BSTNODE *getPredecessor(BST *t, BSTNODE *n) {
  */
 void displayPreorder(BST *t, BSTNODE *n, FILE *fp) {
     // TODO: Am I correct?
-    // TODO: Am I efficient?
     assert(t != 0);
     if (n == NULL) return;
     t->display(getBSTNODEvalue(n), fp);
