@@ -16,6 +16,8 @@
 struct HEAP {
     BST *tree;
     int size;
+
+    QUEUE *insertionQueue;
     
     // Public Methods
     void (*display)(void *, FILE *);
@@ -24,6 +26,11 @@ struct HEAP {
 };
 
 
+/*
+ *  Constructor:    newHEAP
+ *  Usage:  HEAP *h = newHEAP(displayINTEGER, compareINTEGER, freeINTEGER);
+ *  Description:
+ */
 HEAP *newHEAP(
     void (*d)(void *, FILE *),
     int (*c)(void *, void *),
@@ -32,6 +39,7 @@ HEAP *newHEAP(
     assert(h != 0);
     h->tree = newBST(d, c, NULL, f);
     h->size = 0;
+    h->insertionQueue = newQUEUE(h->display, h->free);
     h->display = d;
     h->compare = c;
     h->free = f;
@@ -47,7 +55,7 @@ HEAP *newHEAP(
 void *peekHEAP(HEAP *h) {
     // TODO: Am I correct?
     assert(h != 0);
-    return getBSTroot(h->tree);
+    return getBSTNODEvalue(getBSTroot(h->tree));
 }
 
 
@@ -85,4 +93,16 @@ void displayHEAPdebug(HEAP *h, FILE *fp) {
     fprintf(fp, "heap size: %d\n", h->size);
     fprintf(fp, "bst size: %d\n", sizeBST(h->tree));
     displayBSTdebug(h->tree, fp);
+}
+
+
+/*
+ *  Method: freeHEAP
+ *  Usage:  freeHEAP(h);
+ *  Description:
+ */
+void freeHEAP(HEAP *h) {
+    freeBST(h->tree);
+    freeQUEUE(h->insertionQueue);
+    free(h);
 }

@@ -14,5 +14,6 @@ int main(void) {
     HEAP *h = newHEAP(displayINTEGER, compareINTEGER, freeINTEGER);
     displayHEAPdebug(h, stdout);
 
+    freeHEAP(h);
     return 0;
 }

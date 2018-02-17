@@ -25,5 +25,4 @@ extern void displayHEAP(HEAP *h, FILE *fp);
 extern void displayHEAPdebug(HEAP *h, FILE *fp);
 extern void freeHEAP(HEAP *h);
 
-
 #endif // !__HEAP_INCLUDED__
