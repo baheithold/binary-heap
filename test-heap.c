@@ -1,46 +1,49 @@
-/*
- *  File:   test-heap.c
- *  Author: Brett Heithold
- */
-
-
-#include "heap.h"
-#include "integer.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include "bst.h"
+#include "integer.h"
+#include "stack.h"
+#include "queue.h"
+#include "heap.h"
 
+extern void srandom(unsigned int);
+extern long int random(void);
 
-int main(void) {
-
-    HEAP *h = newHEAP(displayINTEGER, compareINTEGER, freeINTEGER);
-    insertHEAP(h, newINTEGER(10));
-    insertHEAP(h, newINTEGER(7));
-    insertHEAP(h, newINTEGER(9));
-    insertHEAP(h, newINTEGER(15));
-    insertHEAP(h, newINTEGER(12));
-    insertHEAP(h, newINTEGER(17));
-    insertHEAP(h, newINTEGER(11));
-    displayHEAPdebug(h, stdout);
-    buildHEAP(h);
-    printf("After buildHEAP: \n");
-    displayHEAP(h, stdout);
+int
+main(void)
+    {
+    srandom(1);
+    //simple INTEGER test of HEAP
+    HEAP *p = newHEAP(displayINTEGER,compareINTEGER,freeINTEGER);
+    insertHEAP(p,newINTEGER(3));
+    insertHEAP(p,newINTEGER(0));
+    insertHEAP(p,newINTEGER(2));
+    buildHEAP(p);
+    printf("heap: ");
+    displayHEAP(p,stdout);
     printf("\n");
-    void *extracted = extractHEAP(h);
-    extracted = extractHEAP(h);
-    extracted = extractHEAP(h);
-    extracted = extractHEAP(h);
-    extracted = extractHEAP(h);
-    extracted = extractHEAP(h);
-    printf("Last extracted from heap: ");
-    displayINTEGER(extracted, stdout);
+    printf("debug:\n");
+    displayHEAPdebug(p,stdout);
+    printf("min should be %d\n",getINTEGER(peekHEAP(p)));
+    INTEGER *r = extractHEAP(p);
+    printf("min is %d\n",getINTEGER(r));
+    freeINTEGER(r);
+    printf("heap: ");
+    displayHEAP(p,stdout);
     printf("\n");
-    printf("After extractHEAP: \n");
-    displayHEAPdebug(h, stdout);
-    printf("Extracting last node: ");
-    extracted = extractHEAP(h);
-    displayINTEGER(extracted, stdout);
+    printf("debug:\n");
+    displayHEAPdebug(p,stdout);
+    printf("min should be %d\n",getINTEGER(peekHEAP(p)));
+    r = extractHEAP(p);
+    printf("min is %d\n",getINTEGER(r));
+    freeINTEGER(r);
+    printf("heap: ");
+    displayHEAP(p,stdout);
     printf("\n");
-    displayHEAPdebug(h, stdout);
-
-    freeHEAP(h);
+    printf("debug:\n");
+    displayHEAPdebug(p,stdout);
+    printf("peek: %d\n",getINTEGER(peekHEAP(p)));
+    printf("size: %d\n",sizeHEAP(p));
+    freeHEAP(p);
     return 0;
-}
+    }
