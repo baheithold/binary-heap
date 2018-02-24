@@ -130,11 +130,73 @@ heap-0-14.o:	./Testing/heap-0-14.c heap.h
 heap-0-15.o:	./Testing/heap-0-15.c heap.h
 		gcc $(OOPTS) ./Testing/heap-0-15.c
 
-test:	heap-0-0
-		@./heap-0-0
+test:	$(EXECUTABLES)
+		@echo Testing heap-0-0...
+		@./heap-0-0 > ./Testing/myresults/heap-0-0.txt
+		@diff ./Testing/expectedresults/heap-0-0.txt ./Testing/myresults/heap-0-0.txt
+		@echo Testing heap-0-1...
+		@./heap-0-1 > ./Testing/myresults/heap-0-1.txt
+		@diff ./Testing/expectedresults/heap-0-1.txt ./Testing/myresults/heap-0-1.txt
+		@echo Testing heap-0-2...
+		@./heap-0-2 > ./Testing/myresults/heap-0-2.txt
+		@diff ./Testing/expectedresults/heap-0-2.txt ./Testing/myresults/heap-0-2.txt
+		@echo Testing heap-0-3...
+		@./heap-0-3 > ./Testing/myresults/heap-0-3.txt
+		@diff ./Testing/expectedresults/heap-0-3.txt ./Testing/myresults/heap-0-3.txt
+		@echo Testing heap-0-4...
+		@./heap-0-4 > ./Testing/myresults/heap-0-4.txt
+		@diff ./Testing/expectedresults/heap-0-4.txt ./Testing/myresults/heap-0-4.txt
+		@echo Testing heap-0-5...
+		@./heap-0-5 > ./Testing/myresults/heap-0-5.txt
+		@diff ./Testing/expectedresults/heap-0-5.txt ./Testing/myresults/heap-0-5.txt
+		@echo Testing heap-0-6...
+		@./heap-0-6 > ./Testing/myresults/heap-0-6.txt
+		@diff ./Testing/expectedresults/heap-0-6.txt ./Testing/myresults/heap-0-6.txt
+		@echo Testing heap-0-7...
+		@./heap-0-7 > ./Testing/myresults/heap-0-7.txt
+		@diff ./Testing/expectedresults/heap-0-7.txt ./Testing/myresults/heap-0-7.txt
+		@echo Testing heap-0-8...
+		@./heap-0-8 > ./Testing/myresults/heap-0-8.txt
+		@diff ./Testing/expectedresults/heap-0-8.txt ./Testing/myresults/heap-0-8.txt
+		@echo Testing heap-0-9...
+		@./heap-0-9 > ./Testing/myresults/heap-0-9.txt
+		@diff ./Testing/expectedresults/heap-0-9.txt ./Testing/myresults/heap-0-9.txt
+		@echo Testing heap-0-10...
+		@./heap-0-10 > ./Testing/myresults/heap-0-10.txt
+		@diff ./Testing/expectedresults/heap-0-10.txt ./Testing/myresults/heap-0-10.txt
+		@echo Testing heap-0-11...
+		@./heap-0-11 > ./Testing/myresults/heap-0-11.txt
+		@diff ./Testing/expectedresults/heap-0-11.txt ./Testing/myresults/heap-0-11.txt
+		@echo Testing heap-0-12...
+		@./heap-0-12 > ./Testing/myresults/heap-0-12.txt
+		@diff ./Testing/expectedresults/heap-0-12.txt ./Testing/myresults/heap-0-12.txt
+		@echo Testing heap-0-13...
+		@./heap-0-13 > ./Testing/myresults/heap-0-13.txt
+		@diff ./Testing/expectedresults/heap-0-13.txt ./Testing/myresults/heap-0-13.txt
+		@echo Testing heap-0-14...
+		@./heap-0-14 > ./Testing/myresults/heap-0-14.txt
+		@diff ./Testing/expectedresults/heap-0-14.txt ./Testing/myresults/heap-0-14.txt
+		@echo Testing heap-0-15...
+		@./heap-0-15 > ./Testing/myresults/heap-0-15.txt
+		@diff ./Testing/expectedresults/heap-0-15.txt ./Testing/myresults/heap-0-15.txt
 
 valgrind:	$(EXECUTABLES)
 		valgrind ./heap-0-0
+		valgrind ./heap-0-1
+		valgrind ./heap-0-2
+		valgrind ./heap-0-3
+		valgrind ./heap-0-4
+		valgrind ./heap-0-5
+		valgrind ./heap-0-6
+		valgrind ./heap-0-7
+		valgrind ./heap-0-8
+		valgrind ./heap-0-9
+		valgrind ./heap-0-10
+		valgrind ./heap-0-11
+		valgrind ./heap-0-12
+		valgrind ./heap-0-13
+		valgrind ./heap-0-14
+		valgrind ./heap-0-15
 
 clean:
 		rm -f vgcore.* *.o $(EXECUTABLES)

@@ -1,0 +1,14 @@
+peek: 2147479486
+size is 109093
+extracted 397465
+extracted 334781
+extracted 334039
+extracted 292569
+extracted 273599
+extracted 272946
+extracted 231138
+extracted 202476
+extracted 198918
+extracted 175981
+peek: 137290
+size is 10
