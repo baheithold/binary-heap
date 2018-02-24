@@ -152,10 +152,12 @@ void *extractHEAP(HEAP *h) {
     }
     BSTNODE *popped = pop(h->extractionStack);
     h->swapNodeValues(getBSTroot(h->tree), popped);
+    void *rv = getBSTNODEvalue(popped);
     pruneLeafBST(h->tree, popped);
+    freeBSTNODE(popped, NULL);
     h->heapify(h, getBSTroot(h->tree));
     h->size--;
-    return getBSTNODEvalue(popped);
+    return rv;
 }
 
 
