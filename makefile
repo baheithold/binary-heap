@@ -7,6 +7,9 @@ EXECUTABLES = heap-0-0 heap-0-1 heap-0-2 heap-0-3 heap-0-4 heap-0-5 heap-0-6 \
 
 all:	$(EXECUTABLES)
 
+mytester:	integer.o heap.o mytester.o queue.o stack.o dll.o sll.o bst.o
+		gcc $(LOPTS) integer.o heap.o mytester.o queue.o stack.o dll.o sll.o bst.o -o mytester
+
 heap-0-0:	$(OBJS) heap-0-0.o
 		gcc $(LOPTS) $(OBJS) heap-0-0.o -o heap-0-0
 
@@ -82,6 +85,9 @@ bst.o:	bst.c bst.h queue.h
 heap.o:	heap.c heap.h bst.h queue.h stack.h
 		gcc $(OOPTS) heap.c
 
+mytester.o:	mytester.c heap.h
+		gcc $(OOPTS) mytester.c
+
 heap-0-0.o:	./Testing/heap-0-0.c heap.h
 		gcc $(OOPTS) ./Testing/heap-0-0.c
 
@@ -129,6 +135,9 @@ heap-0-14.o:	./Testing/heap-0-14.c heap.h
 
 heap-0-15.o:	./Testing/heap-0-15.c heap.h
 		gcc $(OOPTS) ./Testing/heap-0-15.c
+
+mytest:	mytester
+		@./mytester
 
 test:	$(EXECUTABLES)
 		@echo Testing heap-0-0...

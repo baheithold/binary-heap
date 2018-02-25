@@ -146,17 +146,18 @@ void *extractHEAP(HEAP *h) {
     assert(h != 0);
     if (h->size == 1) {
         h->size--;
-        void *rv = getBSTNODEvalue(getBSTroot(h->tree));
-        pruneLeafBST(h->tree, getBSTroot(h->tree));
+        BSTNODE *popped = pop(h->extractionStack);
+        void *rv = getBSTNODEvalue(popped);
+        freeBSTNODE(popped, NULL);
         return rv;
     }
     BSTNODE *popped = pop(h->extractionStack);
     h->swapNodeValues(getBSTroot(h->tree), popped);
     void *rv = getBSTNODEvalue(popped);
     pruneLeafBST(h->tree, popped);
-    freeBSTNODE(popped, NULL);
-    h->heapify(h, getBSTroot(h->tree));
     h->size--;
+    if (h->size > 1) h->heapify(h, getBSTroot(h->tree));
+    freeBSTNODE(popped, NULL);
     return rv;
 }
 
@@ -199,6 +200,7 @@ void displayHEAPdebug(HEAP *h, FILE *fp) {
     fprintf(fp, "heap size: %d\n", h->size);
     fprintf(fp, "bst size: %d\n", sizeBST(h->tree));
     displayBSTdebug(h->tree, fp);
+    printf("size stack: %d\n", sizeSTACK(h->extractionStack));
 }
 
 
