@@ -50,8 +50,8 @@ HEAP *newHEAP(
     assert(h != 0);
     h->tree = newBST(d, c, NULL, f);
     h->size = 0;
-    h->insertionQueue = newQUEUE(d, f);
-    h->extractionStack = newSTACK(d, f);
+    h->insertionQueue = newQUEUE(d, NULL);
+    h->extractionStack = newSTACK(d, NULL);
     h->display = d;
     h->compare = c;
     h->free = f;

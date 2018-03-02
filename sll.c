@@ -316,7 +316,6 @@ void displaySLLdebug(SLL *items, FILE *fp) {
  *  If the freeing function is null, the generic value is not freed.
  */
 void freeSLL(SLL *items) {
-    // TODO: Do I Work Right?
     assert(items != 0);
     NODE *curr = items->head;
     NODE *tmp;
