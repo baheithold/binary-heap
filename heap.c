@@ -24,7 +24,7 @@ struct HEAP {
 
     QUEUE *insertionQueue;
     STACK *extractionStack;
-    
+
     // Public Methods
     void (*display)(void *, FILE *);
     int (*compare)(void *, void *);
@@ -63,7 +63,7 @@ HEAP *newHEAP(
  *  Method: insertHEAP
  *  Usage:  insertHEAP(h, newINTEGER(7));
  *  Description: This method inserts a generic value into an un-heapified heap.
- *  No fixing up of the heap should occur. This method runs in constant time. 
+ *  No fixing up of the heap should occur. This method runs in constant time.
  */
 void insertHEAP(HEAP *h, void *value) {
     assert(h != 0);
@@ -108,11 +108,9 @@ void insertHEAP(HEAP *h, void *value) {
  */
 void buildHEAP(HEAP *h) {
     assert(h != 0);
-    int numLeaves = sizeQUEUE(h->insertionQueue);
-    int i = 0;
     BSTNODE *dequeued;
     BSTNODE *parent;
-    while (i < numLeaves) {
+    while (sizeQUEUE(h->insertionQueue) > 0) {
         dequeued = dequeue(h->insertionQueue);
         parent = getBSTNODEparent(dequeued);
         while (parent != NULL) {
@@ -120,7 +118,6 @@ void buildHEAP(HEAP *h) {
             parent = getBSTNODEparent(parent);
         }
         push(h->extractionStack, dequeued);
-        i++;
     }
 }
 
@@ -128,7 +125,7 @@ void buildHEAP(HEAP *h) {
  *  Method: peekHEAP
  *  Usage:  void *val = peekHEAP(h);
  *  Description:This method returns the value at the “root” of the heap;
- *  the heap is unmodified. This method runs in constant time. 
+ *  the heap is unmodified. This method runs in constant time.
  */
 void *peekHEAP(HEAP *h) {
     assert(h != 0);
@@ -140,7 +137,7 @@ void *peekHEAP(HEAP *h) {
  *  Method: extractHEAP
  *  Usage:  void *val = extractHEAP(h);
  *  Description: This method returns the value at the “root” of the heap,
- *  rebuilding the heap. This method runs in logarithmic time. 
+ *  rebuilding the heap. This method runs in logarithmic time.
  */
 void *extractHEAP(HEAP *h) {
     assert(h != 0);
@@ -166,7 +163,7 @@ void *extractHEAP(HEAP *h) {
  *  Method: sizeHEAP
  *  Usage:  int size = sizeHEAP(h);
  *  Description: This method returns the number of values currently in the tree.
- *  It runs in constant time. 
+ *  It runs in constant time.
  */
 int sizeHEAP(HEAP *h) {
     assert(h != 0);
@@ -192,7 +189,7 @@ void displayHEAP(HEAP *h, FILE *fp) {
  *  Usage:  displayHEAPdebug(h, stdout);
  *  Description: This method should print the size of the heap, the size of the
  *  underlying data structure, and call the debug display method of the
- *  underlying data structure. 
+ *  underlying data structure.
  *  Example Output:
  */
 void displayHEAPdebug(HEAP *h, FILE *fp) {
