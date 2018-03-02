@@ -29,7 +29,7 @@ struct STACK {
  *  Constructor:    newSTACK
  *  Usage:  STACK *s = newSTACK(displayINTEGER, freeINTEGER);
  *  Description: The constructor is passed functions that knows how to display
- *  and free the generic values stored in the queue. 
+ *  and free the generic values stored in the queue.
  */
 STACK *newSTACK(void (*d)(void *, FILE *), void (*f)(void *)) {
     STACK *s = malloc(sizeof(STACK));
@@ -45,8 +45,8 @@ STACK *newSTACK(void (*d)(void *, FILE *), void (*f)(void *)) {
 /*
  *  Method: push
  *  Usage:  push(items, value);
- *  Description: The push method runs in constant or amortized constant time. 
- *  The value to be pushed is stored in the underlying data structure. 
+ *  Description: The push method runs in constant or amortized constant time.
+ *  The value to be pushed is stored in the underlying data structure.
  */
 void push(STACK *items, void *value) {
     assert(items != 0);
@@ -59,7 +59,7 @@ void push(STACK *items, void *value) {
  *  Method: pop
  *  Usage:  void *value = pop(s);
  *  Description: The pop method runs in constant or amortized constant time.
- *  The value to be popped is removed in the underlying data structure. 
+ *  The value to be popped is removed in the underlying data structure.
  */
 void *pop(STACK *items) {
     assert(sizeDLL(items->store) > 0);
@@ -72,7 +72,7 @@ void *pop(STACK *items) {
  *  Method: peekSTACK
  *  Usage:  void *top = peekSTACK(s);
  *  Description: The peek method returns the value ready to come off the stack,
- *  but leaves the stack unchanged. It runs in constant time. 
+ *  but leaves the stack unchanged. It runs in constant time.
  */
 void *peekSTACK(STACK *items) {
     assert(items != 0);
@@ -85,7 +85,7 @@ void *peekSTACK(STACK *items) {
  *  Method: sizeSTACK
  *  Usage int size = sizeSTACK(s);
  *  Description: The size method returns the number of items stored in
- *  the stack. It runs in amortized constant time. 
+ *  the stack. It runs in amortized constant time.
  */
 int sizeSTACK(STACK *items) {
     assert(items != 0);

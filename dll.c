@@ -110,7 +110,7 @@ static NODE *getNodeAtIndex(DLL *items, int index);
 
 /*
  *  Type:   DLL
- *  Description: This DLL struct is the basis of the DLL class. 
+ *  Description: This DLL struct is the basis of the DLL class.
  *  This doubly-linked list is a linear doubly-linked list with both head and
  *  tail pointers.
  */
@@ -122,7 +122,7 @@ struct DLL {
     // Public methods
     void (*display)(void *, FILE *);
     void (*free)(void *);
-    
+
     // Private methods
     void (*addToFront)(DLL *, void *);
     void (*addToBack)(DLL *, void *);
@@ -160,11 +160,11 @@ DLL *newDLL(void (*d)(void *, FILE *), void (*f)(void *)) {
 /*
  *  Method: insertDLL
  *  Usage:  insertDLL(items, index, value);
- *  Description: This method inserts a generic value into a DLL object. This 
+ *  Description: This method inserts a generic value into a DLL object. This
  *  method can calls private helper methods to insert the value at the head,
  *  tail, or at a given index of a DLL object. It runs in constant time for
  *  insertions at a constant distance from the front and from the back.
- *  The doubly-linked list uses zero-based indexing. 
+ *  The doubly-linked list uses zero-based indexing.
  */
 void insertDLL(DLL *items, int index, void *value) {
     assert(items != 0);
@@ -213,11 +213,11 @@ void *removeDLL(DLL *items, int index) {
 /*
  *  Method: unionDLL
  *  Usage:  unionDLL(recipient, donor);
- *  Description: The union method takes two lists and moves all the items 
- *  in the donor list to the recipient list. If the recipient list has the 
- *  items {{3,4,5}} and the donor list has the items {{1,2}}, then, after the 
- *  union, the donor list will be empty and recipient list will have the 
- *  items {{3,4,5,1,2}}. The union method runs in constant time.  
+ *  Description: The union method takes two lists and moves all the items
+ *  in the donor list to the recipient list. If the recipient list has the
+ *  items {{3,4,5}} and the donor list has the items {{1,2}}, then, after the
+ *  union, the donor list will be empty and recipient list will have the
+ *  items {{3,4,5,1,2}}. The union method runs in constant time.
  */
 void unionDLL(DLL *recipient, DLL *donor) {
     assert(recipient != 0 && donor != 0);
@@ -246,8 +246,8 @@ void unionDLL(DLL *recipient, DLL *donor) {
 
 /* Method:  getDLL
  * Usage:   void *value = getDLL(items, index);
- * Description: The method returns the value at the given index. 
- * It runs in constant time for retrievals at a constant distance from the 
+ * Description: The method returns the value at the given index.
+ * It runs in constant time for retrievals at a constant distance from the
  * front and from the back.
  */
 void *getDLL(DLL *items, int index) {
@@ -302,7 +302,7 @@ void *setDLL(DLL *items, int index, void *value) {
 /*
  *  Method: sizeDLL
  *  Usage:  int size = sizeDLL(items);
- *  Description: This method returns the number of values stored in 
+ *  Description: This method returns the number of values stored in
  *  a DLL object. This method runs in constant time.
  */
 int sizeDLL(DLL *items) {
@@ -444,7 +444,7 @@ void insertAtIndex(DLL *items, int index, void *value) {
 /*
  *  Method (private):   removeFromFront
  *  Usage:  void *value = removeFromFront(items);
- *  Description: This method removes and returns the generic value stored 
+ *  Description: This method removes and returns the generic value stored
  *  at the head of a DLL object.
  */
 void *removeFromFront(DLL *items) {
@@ -464,7 +464,7 @@ void *removeFromFront(DLL *items) {
 /*
  *  Method (private):   removeFromBack
  *  Usage:  void *value = removeFromBack(items);
- *  Description: This method removes and returns the generic value stored 
+ *  Description: This method removes and returns the generic value stored
  *  at the tail of a DLL object.
  */
 void *removeFromBack(DLL *items) {

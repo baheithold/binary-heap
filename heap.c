@@ -14,8 +14,9 @@
 
 
 // Private HEAP method prototypes
+static int isRoot(HEAP *h, BSTNODE *n);
 static void swapNodeValues(BSTNODE *x, BSTNODE *y);
-static void heapify(HEAP *h, BSTNODE *root);
+static void heapify(HEAP *h, BSTNODE *n);
 
 
 struct HEAP {
@@ -30,6 +31,7 @@ struct HEAP {
     int (*compare)(void *, void *);
     void (*free)(void *);
     // Private Methods
+    int (*isRoot)(HEAP *, BSTNODE *);
     void (*swapNodeValues)(BSTNODE *, BSTNODE *);
     void (*heapify)(HEAP *, BSTNODE *);
 };
@@ -48,11 +50,12 @@ HEAP *newHEAP(
     assert(h != 0);
     h->tree = newBST(d, c, NULL, f);
     h->size = 0;
-    h->insertionQueue = newQUEUE(h->display, h->free);
-    h->extractionStack = newSTACK(h->display, h->free);
+    h->insertionQueue = newQUEUE(d, f);
+    h->extractionStack = newSTACK(d, f);
     h->display = d;
     h->compare = c;
     h->free = f;
+    h->isRoot = isRoot;
     h->swapNodeValues = swapNodeValues;
     h->heapify = heapify;
     return h;
@@ -115,6 +118,7 @@ void buildHEAP(HEAP *h) {
         parent = getBSTNODEparent(dequeued);
         while (parent != NULL) {
             h->heapify(h, parent);
+            if (h->isRoot(h, parent)) break;
             parent = getBSTNODEparent(parent);
         }
         push(h->extractionStack, dequeued);
@@ -153,6 +157,7 @@ void *extractHEAP(HEAP *h) {
     void *rv = getBSTNODEvalue(popped);
     pruneLeafBST(h->tree, popped);
     h->size--;
+    setBSTsize(h->tree, h->size);
     if (h->size > 1) h->heapify(h, getBSTroot(h->tree));
     freeBSTNODE(popped, NULL);
     return rv;
@@ -218,6 +223,11 @@ void freeHEAP(HEAP *h) {
 /****************************** Private Methods ******************************/
 
 
+int isRoot(HEAP *h, BSTNODE *n) {
+    return (n == getBSTroot(h->tree)) ? 1 : 0;
+}
+
+
 void swapNodeValues(BSTNODE *x, BSTNODE *y) {
     assert(x != 0 && y != 0);
     void *tmp = getBSTNODEvalue(x);
@@ -226,12 +236,12 @@ void swapNodeValues(BSTNODE *x, BSTNODE *y) {
 }
 
 
-void heapify(HEAP *h, BSTNODE *root) {
-    BSTNODE *left = getBSTNODEleft(root);
-    BSTNODE *right = getBSTNODEright(root);
-    BSTNODE *smallest = root;
+void heapify(HEAP *h, BSTNODE *n) {
+    BSTNODE *left = getBSTNODEleft(n);
+    BSTNODE *right = getBSTNODEright(n);
+    BSTNODE *smallest = n;
     if (left != NULL) {
-        if (h->compare(getBSTNODEvalue(left), getBSTNODEvalue(root)) < 0) {
+        if (h->compare(getBSTNODEvalue(left), getBSTNODEvalue(n)) < 0) {
             smallest = left;
         }
     }
@@ -240,8 +250,8 @@ void heapify(HEAP *h, BSTNODE *root) {
             smallest = right;
         }
     }
-    if (h->compare(getBSTNODEvalue(smallest), getBSTNODEvalue(root)) != 0) {
-        h->swapNodeValues(root, smallest);
+    if (h->compare(getBSTNODEvalue(smallest), getBSTNODEvalue(n)) != 0) {
+        h->swapNodeValues(n, smallest);
         h->heapify(h, smallest);
     }
 }
