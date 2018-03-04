@@ -31,7 +31,7 @@ struct HEAP {
     int (*compare)(void *, void *);
     void (*free)(void *);
     // Private Methods
-    int (*isRoot)(HEAP *, BSTNODE *);
+    int (*isRoot)(HEAP *h, BSTNODE *);
     void (*swapNodeValues)(BSTNODE *, BSTNODE *);
     void (*heapify)(HEAP *, BSTNODE *);
 };
@@ -125,6 +125,7 @@ void buildHEAP(HEAP *h) {
     }
 }
 
+
 /*
  *  Method: peekHEAP
  *  Usage:  void *val = peekHEAP(h);
@@ -145,21 +146,16 @@ void *peekHEAP(HEAP *h) {
  */
 void *extractHEAP(HEAP *h) {
     assert(h != 0);
-    if (h->size == 1) {
-        h->size--;
-        BSTNODE *popped = pop(h->extractionStack);
-        void *rv = getBSTNODEvalue(popped);
-        freeBSTNODE(popped, NULL);
-        return rv;
-    }
+    void *rv = getBSTNODEvalue(getBSTroot(h->tree));
     BSTNODE *popped = pop(h->extractionStack);
-    h->swapNodeValues(getBSTroot(h->tree), popped);
-    void *rv = getBSTNODEvalue(popped);
     pruneLeafBST(h->tree, popped);
+    if (h->size > 1) {
+        setBSTNODEvalue(getBSTroot(h->tree), getBSTNODEvalue(popped));
+        h->heapify(h, getBSTroot(h->tree));
+    }
+    freeBSTNODE(popped, NULL);
     h->size--;
     setBSTsize(h->tree, h->size);
-    if (h->size > 1) h->heapify(h, getBSTroot(h->tree));
-    freeBSTNODE(popped, NULL);
     return rv;
 }
 
