@@ -284,7 +284,6 @@ void setBSTsize(BST *t, int s) {
  *  Description: This method inserts a new value into a tree.
  */
 BSTNODE *insertBST(BST *t, void *value) {
-    // TODO: should i be recursive?
     assert(t != 0);
     BSTNODE *n = newBSTNODE(value);
     assert(n != 0);
@@ -304,6 +303,7 @@ BSTNODE *insertBST(BST *t, void *value) {
     setBSTNODEparent(n, p);
     if (p == NULL) {
         setBSTroot(t, n);
+        setBSTNODEparent(n, n);
     }
     else if (t->compare(value, getBSTNODEvalue(p)) < 0) {
         // Set the new node to be the left child of p
@@ -448,7 +448,6 @@ void statisticsBST(BST *t, FILE *fp) {
  *  Example Output:
  */
 void displayBST(BST *t, FILE *fp) {
-    // FIXME
     fprintf(fp, "[");
     t->displayPreorder(t, t->root, fp);
     fprintf(fp, "]");
@@ -492,6 +491,57 @@ void displayBSTdebug(BST *t, FILE *fp) {
 
 
 /*
+ *  Method: displayBSTdecorated
+ *  Usage:  displayBSTdecorated(t, stdout);
+ *  Description: TODO
+ *  Example Output: TODO
+ */
+void displayBSTdecorated(BST *t, FILE *fp) {
+    // TODO: Am I correct?
+    // TODO: Am I efficient?
+    assert(t != 0);
+    if (t->root == NULL) return;
+    QUEUE *q = newQUEUE(NULL, NULL);
+    BSTNODE *n = t->root;
+    enqueue(q, n);
+    int level = 0;
+    int nodesAtLevel = 0;
+    while (1) {
+        nodesAtLevel = sizeQUEUE(q);
+        if (nodesAtLevel == 0) break;
+        fprintf(fp, "%d: ", level);
+        while (nodesAtLevel > 0) {
+            n = dequeue(q);
+            if (n->isLeaf(n)) fprintf(fp, "=");
+            t->display(getBSTNODEvalue(n), fp);
+            if (t->isRoot(t, n)) {
+                fprintf(fp, "(");
+                t->display(getBSTNODEvalue(n), fp);
+                fprintf(fp, ")");
+            }
+            else {
+                fprintf(fp, "(");
+                t->display(getBSTNODEvalue(n->parent), fp);
+                fprintf(fp, ")");
+            }
+            if (t->isRoot(t, n)) {
+                fprintf(fp, "X");
+            }
+            else if (t->isLeftChild(t, n)) fprintf(fp, "L");
+            else if (t->isRightChild(t, n)) fprintf(fp, "R");
+            if (nodesAtLevel > 1) fprintf(fp, " ");
+            if (n->left != NULL) enqueue(q, n->left);
+            if (n->right != NULL) enqueue(q, n->right);
+            nodesAtLevel--;
+        }
+        fprintf(fp, "\n");
+        level++;
+    }
+    freeQUEUE(q);
+}
+
+
+/*
  *  Method: freeBST
  *  Usage:  freeBST(tree);
  *  Description: This method frees a BST object by performing a postorder
@@ -514,7 +564,7 @@ void freeBST(BST *t) {
  *  Description:
  */
 void swapper(BSTNODE *x, BSTNODE *y) {
-    // TODO: Do I work correctly?
+    // TODO: Do I work correctly? NO, i THINK
     assert(x != 0 && y != 0);
     void *tmp = getBSTNODEvalue(x);
     setBSTNODEvalue(x, getBSTNODEvalue(y));
@@ -529,10 +579,7 @@ void swapper(BSTNODE *x, BSTNODE *y) {
  */
 int isRoot(BST *t, BSTNODE *n) {
     assert(t != 0 && n != 0);
-    if (t->compare(getBSTNODEvalue(n), getBSTNODEvalue(t->root)) == 0) {
-        return 1;
-    }
-    return 0;
+    return (n == t->root) ? 1 : 0;
 }
 
 
@@ -686,8 +733,6 @@ BSTNODE *getPredecessor(BST *t, BSTNODE *n) {
  *  Description:
  */
 void displayPreorder(BST *t, BSTNODE *n, FILE *fp) {
-    // TODO: Am I correct?
-    // TODO: Am I efficient?
     assert(t != 0);
     if (n == NULL) return;
     t->display(getBSTNODEvalue(n), fp);
